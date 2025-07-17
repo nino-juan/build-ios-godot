@@ -1,0 +1,35 @@
+name: "Build iOS app"
+
+# on: [push]
+on: [workflow_dispatch]
+
+jobs:
+  build_ios:
+    runs-on: macos-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: build archive and ipaify
+        run: |
+          wget -O archive.zip "https://www.dropbox.com/scl/fi/4hnka981mhxt5z7vd0xbd/d0dd1803-62bb-11f0-afca-088fc36ab967.zip?rlkey=h3cjj47mt1fz9pzgw062cf2hv&dl=1"
+          unzip archive.zip -d .
+
+          xcodebuild archive -project tomat-light.xcodeproj -scheme 'tomat-light' -archivePath tomat-light.xcarchive -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+
+          mkdir Payload
+          mv tomat-light.xcarchive/Products/Applications/tomat-light.app Payload/tomat-light.app
+
+          zip -r "tomat-light.ipa" "Payload"
+
+          mv tomat-light.ipa ${{ runner.temp }}/tomat-light.ipa
+
+
+      - name: Upload application
+        uses: actions/upload-artifact@v4
+        with:
+          name: tomat-light
+          path: ${{ runner.temp }}/tomat-light.ipa
+          # you can also archive the entire directory
+          # path: ${{ runner.temp }}/build
+          retention-days: 3
