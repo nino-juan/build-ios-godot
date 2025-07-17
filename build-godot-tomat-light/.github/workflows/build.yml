@@ -12,7 +12,7 @@ jobs:
 
       - name: build archive and ipaify
         run: |
-          wget -O archive.zip "https://www.dropbox.com/scl/fi/6da7pui0frnrakyeesjlq/87a7929d-62bc-11f0-afab-088fc36ab967.zip?rlkey=l1tokvhylfegi3w1ds5qcfw3u&dl=1"
+          wget -O archive.zip "https://www.dropbox.com/scl/fi/vo6xr4jhya3doiyfp4ini/c03e98cb-62bc-11f0-8811-088fc36ab967.zip?rlkey=hd4fa16v0ebuei92rz9jfspca&dl=1"
           unzip archive.zip -d .
 
           xcodebuild archive -project tomat-light.xcodeproj -scheme 'tomat-light' -archivePath tomat-light.xcarchive -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
